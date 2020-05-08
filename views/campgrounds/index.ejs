@@ -1,4 +1,4 @@
-<%- include("partials/header") %> 
+<%- include("../partials/header") %> 
 
 <div class="container">
     
@@ -21,7 +21,7 @@
     <div class="row text-center" style="display: flex; flex-wrap: wrap;" >
         <% campsData.forEach(camp => { %>
             <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
+                <div class="img-thumbnail">
                     <img style="width: 100%;" src="<%= camp.data().imageURL %>" alt="<%= camp.data().name %> photo">
                     <div class="caption">
                         <h4>
@@ -36,4 +36,4 @@
         <% }); %>
     </div>
 </div>
-<%- include("partials/footer") %> 
+<%- include("../partials/footer") %> 

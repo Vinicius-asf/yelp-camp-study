@@ -4,26 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCxtFw8SQfvfsUTdvJQwbJeYfimu6g2oBo",
+        authDomain: "yelp-camp-study.firebaseapp.com",
+        databaseURL: "https://yelp-camp-study.firebaseio.com",
+        projectId: "yelp-camp-study",
+        storageBucket: "yelp-camp-study.appspot.com",
+        messagingSenderId: "315828489141",
+        appId: "1:315828489141:web:a3b06d6dc61ba0d26267fc"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script> -->
     <title>YelpCamp</title>
 </head>
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
         <a class="navbar-brand" href="/">YelpCamp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="/">Login <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="/">SignIn <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="/">Logout <span class="sr-only">(current)</span></a>
-              </li>
+              <% if (!currentUser) { %>               
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/register">SignUp <span class="sr-only">(current)</span></a>
+                </li>
+              <% } else { %>       
+                <li class="nav-item">
+                  <span class="navbar-text">
+                    Logged in as <%= currentUser.displayName %> 
+                  </span> 
+                  <!-- <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a> -->
+                </li>           
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+                </li>
+              <% } %>
             </ul>
         </div>
     </nav>

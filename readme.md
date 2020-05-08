@@ -30,10 +30,29 @@ Each Campground has:
 * Add description to campground model
 * Add a show route/template
 
-RESTFUL ROUTES
-name    url                 verb    desc
-===========================================================================
-INDEX   /campgrounds        GET     Display a list of campgrounds
-NEW     /campgrounds/new    GET     Display a form to insert a new campground
-CREATE  /campgorunds        POST    Add new campground to DB
-SHOW    /show:id            GET     Shows info about one camp
+# Refactoring code
+* Create models directory
+* Use module.export
+* Require everything correctly
+
+# Add Seeds file
+* Add a seeds.js file
+* Run the seeds file every time the server starts
+
+# Add NEW and CREATE routes for comments
+* Add new comment form
+* Refact NEW and CREAT routes to add comments
+
+# Add Auth and Users
+* Auth configuration
+* Auth header for the web
+
+# RESTFUL ROUTES
+name    url                             verb    desc
+======================================================================================================
+INDEX   /campgrounds                    GET     Display a list of campgrounds
+NEW     /campgrounds/new                GET     Display a form to insert a new campground
+CREATE  /campgorunds                    POST    Add new campground to DB
+SHOW    /show:id                        GET     Shows info about one camp
+NEW     /campgrounds/:id/comments/new   GET     Display a form to insert a new comment to a specific camp
+CREATE  /campgrounds/:id/comments       POST    Add new comment to a specific campgrounds
