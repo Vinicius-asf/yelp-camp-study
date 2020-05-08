@@ -1,67 +1,68 @@
-const express = require("express");
-const app = express();
-const body_parser = require("body-parser");
-
+const express = require("express"),
+app = express(),
+body_parser = require("body-parser");
+// ############################################
 // Initialize Cloud Firestore through Firebase
-const admin = require("firebase-admin");
-const serviceAccount = require("./credentials/yelp-camp-study-firebase-adminsdk.json")
+// ############################################
+const admin = require("firebase-admin"),
+serviceAccount = require("./credentials/yelp-camp-study-firebase-adminsdk.json"),
+clientAccount = require("./credentials/firebase_apisdk_client.json");
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
-// #################################################
-const campsCollection = db.collection("campground")
+const firebase = require("firebase");
+firebase.initializeApp(clientAccount);
+const campsCollection = db.collection("campground");
 
-// campsCollection.add({
-//     name:"Granite Hill",
-//     imageURL:"https://www.nps.gov/maca/planyourvisit/images/MapleSpringsCampground-Campsite.jpg",
-//     desc:"A mountain full of granite rocks!"
-// });
+const seedDB = require("./seeds");
 
+// ##################
+// App Configuration
+// ##################
 app.use(body_parser.urlencoded({
     extended: true
 }));
 app.set("view engine","ejs");
-
-app.get("/", (req, res)=>{
-    res.render("landing");
+app.use(express.static(`${__dirname}/public`))
+app.use((req, res, next)=>{
+    res.locals.currentUser = firebase.auth().currentUser;
+    next();
 });
 
-app.get("/campgrounds", (req, res)=>{
-    let campsData = [];
-    campsCollection.get().then(querySnapshot =>{
-        querySnapshot.forEach(documentSnapshot => {
-            console.log(documentSnapshot.data());
-            campsData.push(documentSnapshot);
+process.on('SIGINT', ()=>{
+    db.terminate().then(()=>{
+        console.log(`Firestore has been teminated`);
+        admin.app().delete().then(function() {
+            console.log("Admin App deleted successfully");
+            firebase.app().delete().then(()=>{
+                console.log("App deleted successfully");
+                process.exit()
+            });
+        }).catch(function(error) {
+            console.log("Error deleting app:", error);
+            process.exit()
         });
-        res.render("index", {campsData: campsData});
     });
 });
 
-app.get("/campgrounds/new",(req, res)=>{
-    res.render("new.ejs");
-});
+// ########### 
+// Seeding DB
+// ########### 
+// seedDB()
 
-app.get("/campgrounds/:id", (req, res)=>{
-    //find the campground with the id
-    campsCollection.doc(req.params.id).get().then(documentSnapshot =>{
-        //render show with the campground info
-        res.render("show.ejs", {campsData:documentSnapshot.data()})
-    });
-});
+// ######################
+// Routes and Router
+// ######################
+const commentRoutes = require("./routes/comments"),
+campgroundsRoutes = require("./routes/campgrounds"),
+indexRoutes = require("./routes/index");
 
-app.post("/campgrounds", (req,res)=>{
-    let new_camp = {
-        name: req.body.campName,
-        imageURL: req.body.imageURL,
-        desc: req.body.desc
-    };
-    console.log(new_camp)
-    campsCollection.add(new_camp).then(documentReference => {
-        console.log(`Added document with name: ${documentReference.id}`);
-        res.redirect("/campgrounds");
-      });
-});
+app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/campgrounds", campgroundsRoutes);
+app.use("/", indexRoutes);
+
 
 app.listen(3000, ()=>{
     console.log("Server started");

@@ -1,0 +1,51 @@
+<%- include ("../partials/header") %> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">YelpCamp</p>
+            <div class="list-group">
+                <li class="list-group-item">1</li>
+                <li class="list-group-item">2</li>
+                <li class="list-group-item">3</li>
+            </div>
+            MAP!
+        </div>
+        <div class="col-md-9">
+            <div class="img-thumbnail">
+                <img class="img-fluid" src="<%= camp.data().imageURL %>" alt="<%= camp.data().name %> photo">
+                <div class="caption-full">
+                    <h4 class="float-right">
+                        9
+                    </h4>
+                    <h4><a href=""><%= camp.data().name %></a></h4>
+                    <p><%- camp.data().desc %> </p>
+                    <p><em> Submitted by <%= camp.data().author %></em></p>
+                </div>
+            </div>
+            <div style="margin-top: 10px;" class="card">
+                <div class="card-header">
+                    <span class="card-text">Comments</span>
+                    <a class="btn btn-success float-right" href="/campgrounds/<%= camp.id %>/comments/new"> New comment</a>
+                </div>
+                <div class="card-body">
+                    <% comments.forEach(comment => { %>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <%= comment.data().author %>
+                                <span class="float-right">10 days ago</span>
+                                <p><%= comment.data().text %></p>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<p>
+</p>
+
+</div>
+
+<%- include("../partials/footer") %> 
