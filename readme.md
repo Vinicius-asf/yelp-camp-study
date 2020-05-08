@@ -47,6 +47,10 @@ Each Campground has:
 * Auth configuration
 * Auth header for the web
 
+# Refactoring Routes
+* Use Express Router
+* Split routes into different files
+
 # RESTFUL ROUTES
 name    url                             verb    desc
 ======================================================================================================
