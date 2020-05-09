@@ -51,6 +51,26 @@ Each Campground has:
 * Use Express Router
 * Split routes into different files
 
+# Delete and update Campgrounds
+* Delete route
+* Update route
+* Destroy campgrounds
+* Edit campgrounds
+* Camps authorization
+
+# Delete and update Comments
+* Delete route
+* Update route
+* Destroy comments
+* Edit comments
+* Comments authorization
+
+# TODO: Revamp UI and code
+* Refactor middleware
+* Atention messages
+* Helpful Errors
+* Refact Landing page
+
 # RESTFUL ROUTES
 name    url                             verb    desc
 ======================================================================================================

@@ -6,18 +6,21 @@ const campsData = [
     {
         name: "Cloud's Rest",
         author: "Jown Snow",
+        authorId:1,
         imageURL: "https://images.pexels.com/photos/1230302/pexels-photo-1230302.jpeg",
         desc: "A cloudy but beautyful camp! Bacon ipsum dolor amet fugiat hamburger enim ad non turducken pancetta cupim strip steak swine ea ex dolore jowl. Hamburger culpa bresaola, beef alcatra porchetta deserunt adipisicing brisket turkey. Eu biltong sausage cupim, beef ribs frankfurter swine et filet mignon burgdoggen ut in. Pork chop dolore spare ribs lorem hamburger eu, strip steak doner exercitation pastrami swine id sunt cupidatat. Pork loin lorem ea cupim meatloaf, magna biltong reprehenderit labore meatball quis. Ut turkey doner officia, salami ribeye pastrami sunt tempor bresaola consectetur velit.",
     },
     {
         name: "Camp of Distant Shores",
         author: "Vaan",
+        authorId:2,
         imageURL: "https://images.pexels.com/photos/6757/feet-morning-adventure-camping.jpg",
         desc: "Adventure yourselves at this shores' camp! Bacon ipsum dolor amet fugiat hamburger enim ad non turducken pancetta cupim strip steak swine ea ex dolore jowl. Hamburger culpa bresaola, beef alcatra porchetta deserunt adipisicing brisket turkey. Eu biltong sausage cupim, beef ribs frankfurter swine et filet mignon burgdoggen ut in. Pork chop dolore spare ribs lorem hamburger eu, strip steak doner exercitation pastrami swine id sunt cupidatat. Pork loin lorem ea cupim meatloaf, magna biltong reprehenderit labore meatball quis. Ut turkey doner officia, salami ribeye pastrami sunt tempor bresaola consectetur velit.",
     },
     {
         name: "Desert Grounds",
         author: "Wanderer",
+        authorId:3,
         imageURL: "https://images.pexels.com/photos/776117/pexels-photo-776117.jpeg",
         desc: "Arid but amazing atmosphere! Bacon ipsum dolor amet fugiat hamburger enim ad non turducken pancetta cupim strip steak swine ea ex dolore jowl. Hamburger culpa bresaola, beef alcatra porchetta deserunt adipisicing brisket turkey. Eu biltong sausage cupim, beef ribs frankfurter swine et filet mignon burgdoggen ut in. Pork chop dolore spare ribs lorem hamburger eu, strip steak doner exercitation pastrami swine id sunt cupidatat. Pork loin lorem ea cupim meatloaf, magna biltong reprehenderit labore meatball quis. Ut turkey doner officia, salami ribeye pastrami sunt tempor bresaola consectetur velit.",
     },
@@ -26,10 +29,12 @@ const campsData = [
 const commentsData = [
     {
         author: "Jake",
+        authorId: 4,
         text: "This camps ROCKS! 10/10 - would go there again!"
     },
     {
         author: "Andrea",
+        authorId: 5,
         text: "Doesn't have internet :'( Can't post my photos!"
     },
 

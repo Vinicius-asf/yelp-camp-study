@@ -21,6 +21,13 @@
                     <h4><a href=""><%= camp.data().name %></a></h4>
                     <p><%- camp.data().desc %> </p>
                     <p><em> Submitted by <%= camp.data().author %></em></p>
+                    <!-- currentUser && currentUser.uid == camp.data().authorId -->
+                    <% if (currentUser && currentUser.uid == camp.data().authorId) { %>
+                        <a class="btn btn-warning" href="/campgrounds/<%= camp.id %>/edit ">EDIT</a>
+                        <form class="float-right" action="/campgrounds/<%= camp.id %>?_method=DELETE" method="post">
+                            <button class="btn btn-danger" type="submit"> Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <div style="margin-top: 10px;" class="card">
@@ -35,6 +42,12 @@
                                 <%= comment.data().author %>
                                 <span class="float-right">10 days ago</span>
                                 <p><%= comment.data().text %></p>
+                                <% if (currentUser && currentUser.uid === comment.data().authorId) { %>
+                                    <a href="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>/edit  " class="btn btn-warning">Edit</a>
+                                    <form class="float-right" action="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>?_method=DELETE" method="post">
+                                        <button class="btn btn-danger" type="submit"> Delete</button>
+                                    </form>
+                                <% } %>
                             </div>
                         </div>
                     <% }) %>

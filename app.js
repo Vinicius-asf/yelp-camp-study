@@ -1,6 +1,7 @@
 const express = require("express"),
 app = express(),
-body_parser = require("body-parser");
+body_parser = require("body-parser"),
+methodOverride = require("method-override");
 // ############################################
 // Initialize Cloud Firestore through Firebase
 // ############################################
@@ -25,11 +26,12 @@ app.use(body_parser.urlencoded({
     extended: true
 }));
 app.set("view engine","ejs");
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/public`));
 app.use((req, res, next)=>{
     res.locals.currentUser = firebase.auth().currentUser;
     next();
 });
+app.use(methodOverride("_method"));
 
 process.on('SIGINT', ()=>{
     db.terminate().then(()=>{
