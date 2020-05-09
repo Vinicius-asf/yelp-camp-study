@@ -1,7 +1,10 @@
 const express = require("express"),
 app = express(),
 body_parser = require("body-parser"),
-methodOverride = require("method-override");
+methodOverride = require("method-override"),
+session = require('express-session'),
+cookieParser = require('cookie-parser'),
+connect_flash = require("connect-flash");
 // ############################################
 // Initialize Cloud Firestore through Firebase
 // ############################################
@@ -26,9 +29,14 @@ app.use(body_parser.urlencoded({
     extended: true
 }));
 app.set("view engine","ejs");
+app.use(cookieParser('secret'));
+app.use(session({cookie: { maxAge: 60000 }}));
+app.use(connect_flash());
 app.use(express.static(`${__dirname}/public`));
 app.use((req, res, next)=>{
     res.locals.currentUser = firebase.auth().currentUser;
+    res.locals.error_message = req.flash("error");
+    res.locals.success_message = req.flash("success");
     next();
 });
 app.use(methodOverride("_method"));

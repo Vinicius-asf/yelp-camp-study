@@ -3,39 +3,9 @@ router = express.Router(),
 admin = require("firebase-admin"),
 db = admin.firestore(),
 firebase = require("firebase"),
-campsCollection = db.collection("campground");
+campsCollection = db.collection("campground"),
+middleware = require("../middleware");
 
-const isLoggedIn = (req, res, next) =>{
-    firebase.auth().onAuthStateChanged(user =>{
-        if(user){
-            console.log("User is logged in");
-            return next();
-        }
-        else{
-            res.redirect("/login")
-        }
-    });
-};
-
-const checkCampOwnership = (req, res, next)=>{
-    firebase.auth().onAuthStateChanged(user =>{
-        if(user){
-            console.log("User is logged in");
-            campsCollection.doc(req.params.id).get().then(documentSnapshot=>{
-                if (user.uid == documentSnapshot.data().authorId){
-                    console.log("User ownes the camp");
-                    return next();
-                }
-                else{
-                    res.redirect("back");
-                };
-            });
-        }
-        else{
-            res.redirect("back");
-        };
-    });
-}
 
 // INDEX
 router.get("/", (req, res)=>{
@@ -51,7 +21,7 @@ router.get("/", (req, res)=>{
 });
 
 // NEW
-router.get("/new", isLoggedIn, (req, res)=>{
+router.get("/new", middleware.isLoggedIn, (req, res)=>{
     res.render("campgrounds/new.ejs");
 });
 
@@ -89,42 +59,46 @@ router.get("/:id", (req, res) => {
 });
 
 // CREATE
-router.post("/", isLoggedIn, (req,res)=>{
-    console.log(req.user);
-    let new_camp = {
-        name: req.body.campName,
-        imageURL: req.body.imageURL,
-        desc: req.body.desc,
-        author : firebase.auth().currentUser.displayName,
-        authorId : firebase.auth().currentUser.uid
-    };
-    console.log(new_camp)
-    campsCollection.add(new_camp).then(documentReference => {
+router.post("/", middleware.isLoggedIn, (req,res)=>{
+    // console.log(req.user);
+    // let new_camp = {
+    //     name: req.body.campName,
+    //     imageURL: req.body.imageURL,
+    //     desc: req.body.desc,
+    //     author : firebase.auth().currentUser.displayName,
+    //     authorId : firebase.auth().currentUser.uid
+    // };
+    // console.log(new_camp)
+    req.body.camp["author"] = firebase.auth().currentUser.displayName;
+    req.body.camp["authorId"] = firebase.auth().currentUser.uid;
+    campsCollection.add(req.body.camp).then(documentReference => {
         console.log(`Added document with name: ${documentReference.id}`);
         res.redirect("/campgrounds");
     }).catch(error=>{
         console.log(error);
+        req.flash("error", "Couldn't reach the database! Try again later.");
         res.redirect("/campgrounds");
     });
 });
 
 // EDIT
-router.get("/:id/edit", checkCampOwnership, (req, res)=>{
+router.get("/:id/edit", middleware.checkCampOwnership, (req, res)=>{
     campsCollection.doc(req.params.id).get().then(documentSnapshot =>{
         res.render("campgrounds/edit", {camp: documentSnapshot})
     });
 });
 
 // UPDATE
-router.put("/:id/edit", checkCampOwnership, (req, res)=>{
+router.put("/:id/edit", middleware.checkCampOwnership, (req, res)=>{
     campsCollection.doc(req.params.id).update(req.body.camp).then(response=>{
         console.log(`document updated`);
+        req.flash("success", "Camp updated.");
         res.redirect(`/campgrounds/${req.params.id}`)
     });
 });
 
 // DESTROY
-router.delete("/:id", checkCampOwnership, (req, res)=>{
+router.delete("/:id", middleware.checkCampOwnership, (req, res)=>{
     campsCollection.doc(req.params.id).listCollections().then(listSubCol =>{
         listSubCol.forEach(subcol=>{
             subcol.listDocuments().then(listDoc =>{
@@ -136,6 +110,7 @@ router.delete("/:id", checkCampOwnership, (req, res)=>{
     });
     campsCollection.doc(req.params.id).delete().then(()=>{
         console.log("Camp deleted");
+        req.flash("success", "Camp deleted.");
         res.redirect("/campgrounds");
     });
 });

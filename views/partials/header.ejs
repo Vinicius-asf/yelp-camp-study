@@ -37,3 +37,16 @@
             </ul>
         </div>
     </nav>
+
+    <div class="container" id="message_display">
+      <% if (error_message.length > 0 ) { %>       
+        <div class="card-body alert alert-danger" role="alert">
+          <%= error_message %> 
+        </div>
+      <% } %>
+      <% if (success_message.length > 0 ) { %>       
+        <div class="card-body alert alert-success" role="alert">
+          <%= success_message %> 
+        </div>
+      <% } %>
+    </div>

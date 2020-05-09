@@ -15,9 +15,9 @@
             <div class="img-thumbnail">
                 <img class="img-fluid" src="<%= camp.data().imageURL %>" alt="<%= camp.data().name %> photo">
                 <div class="caption-full">
-                    <h4 class="float-right">
-                        9
-                    </h4>
+                    <h5 class="float-right">
+                       $<%= camp.data().price %>/night
+                    </h5>
                     <h4><a href=""><%= camp.data().name %></a></h4>
                     <p><%- camp.data().desc %> </p>
                     <p><em> Submitted by <%= camp.data().author %></em></p>
@@ -25,7 +25,7 @@
                     <% if (currentUser && currentUser.uid == camp.data().authorId) { %>
                         <a class="btn btn-warning" href="/campgrounds/<%= camp.id %>/edit ">EDIT</a>
                         <form class="float-right" action="/campgrounds/<%= camp.id %>?_method=DELETE" method="post">
-                            <button class="btn btn-danger" type="submit"> Delete</button>
+                            <button class="btn btn-danger btn-sm" type="submit"> Delete</button>
                         </form>
                     <% } %>
                 </div>
@@ -33,7 +33,7 @@
             <div style="margin-top: 10px;" class="card">
                 <div class="card-header">
                     <span class="card-text">Comments</span>
-                    <a class="btn btn-success float-right" href="/campgrounds/<%= camp.id %>/comments/new"> New comment</a>
+                    <a class="btn btn-success float-right btn-sm" href="/campgrounds/<%= camp.id %>/comments/new"> New comment</a>
                 </div>
                 <div class="card-body">
                     <% comments.forEach(comment => { %>
@@ -43,9 +43,9 @@
                                 <span class="float-right">10 days ago</span>
                                 <p><%= comment.data().text %></p>
                                 <% if (currentUser && currentUser.uid === comment.data().authorId) { %>
-                                    <a href="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>/edit  " class="btn btn-warning">Edit</a>
+                                    <a href="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>/edit  " class="btn btn-warning btn-sm">Edit</a>
                                     <form class="float-right" action="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>?_method=DELETE" method="post">
-                                        <button class="btn btn-danger" type="submit"> Delete</button>
+                                        <button class="btn btn-danger btn-sm" type="submit"> Delete</button>
                                     </form>
                                 <% } %>
                             </div>

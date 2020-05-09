@@ -65,9 +65,9 @@ Each Campground has:
 * Edit comments
 * Comments authorization
 
-# TODO: Revamp UI and code
+# Revamp UI and code
 * Refactor middleware
-* Atention messages
+* Flash messages
 * Helpful Errors
 * Refact Landing page
 
